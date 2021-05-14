@@ -33,3 +33,8 @@ class Solution {
         
     }
 }
+
+/*
+Time complexity: O(n) due to for loops
+Space complexity: O(n) due to two array variables being used
+*/
