@@ -1,0 +1,41 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        
+        /*
+        
+        Right of the bat I can see we will need to have a variable that can track the maximum sum
+        The maximum sum value will only change if the value it is being compared to is greater than the previous maximum value
+            else, the max value will remain the same
+            
+        one solution is to start on the first element and loop through to the last element calculating the sum each time
+            Then move onto the second element and so on... This is inefficient as it will have a time complexity of O(n^3)
+        
+        */
+        
+        int maxValue = nums[0];
+        int currentSum = 0;
+        
+        for(int i=0; i<nums.length; i++){
+            
+            //since we don't care if the sum is ever negative, we will set it back to 0 to restart it
+            if(currentSum<0){
+                currentSum = 0;
+            }
+            
+            currentSum = currentSum + nums[i];
+            
+            maxValue = Math.max(currentSum, maxValue);
+            
+            
+        }
+        
+        return maxValue;
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n) due to for loop
+Space complexity: O(1) due to 2 variables being created. Remember, space complexity does not take input into account.
