@@ -1,0 +1,67 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        
+           
+        
+        //We see sorted array so we know BINARY SEARCH - O(logn)
+        
+        
+        if(nums.length == 0){
+            return -1;
+        }
+        
+        int low = 0;
+        int high = nums.length-1;
+        
+        
+        while(low <= high){
+            
+            int mid = (low + high) / 2;
+            
+            if(nums[mid] == target){
+                
+                //eventually the middle element will equal the target or else we return -1
+                return mid;
+            }
+            
+            if(nums[low] <= nums[mid]){
+                
+                if(nums[low] <= target && target <= nums[mid]){
+                    high = mid - 1;
+                }
+                
+                else{
+                    low = mid + 1;
+                }
+                
+            }
+            
+            //We have this else here because nums[low] will not always be <= nums[mid]
+            //for example, 6 7 0 1 2 4 5 is a possible array
+            else{
+                
+                
+                
+                
+                if(nums[mid] <= target && target <= nums[high]){
+                    low = mid + 1;
+                }
+                
+                else{
+                    high = mid - 1;
+                }
+                
+            }            
+            
+            
+        }
+        
+           return -1;
+
+    }
+}  
+
+/*
+Time complexity: O(logn) due to binary search
+Space complexity: O(1)
+*/
