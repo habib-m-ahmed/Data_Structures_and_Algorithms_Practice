@@ -1,0 +1,92 @@
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        
+        //we avoid the brute force approach which requires 3 for loops since it is O(n^3) time complexity
+        
+        //The reason for sorting the array (which has a complexity of o(nlogn)) is so we can easily compare duplicate elements since they will now be beside one another. If the neighboring element is the same then we know to disregard it since it will result in a duplicate triplet which we do not want! Thus, we simply just skip that duplicate element (start++ or end--)
+        //Another way to avoid sorting the array is to just use a Hash Set where duplicate elements cannot exist
+        
+        //once you have the first value, the rest of the problem is just simply two sum
+        
+        //By implementing a left and right pointer where the left pointer starts off right beside the first element and the right pointer starts at the last elelment of the array, we know if the value when adding all 3 elements is greater than 0 then we need to shift the right pointer towards the left side since the values get smaller due to the array being sorted. 
+    
+        //Similarily, if the sum of the three values is less than 0, we move the left pointer towards the right side since we know the values towards the right are bigger. 
+        
+        //The time complexity of this approach will be O(n^2) since we have the for loop nested with the while loop for the left and right pointers
+        
+        //Space complexity will be O(1) (Not sure about this!)
+        
+        
+        //Since we need to return an array within an array
+        List<List<Integer>> result = new ArrayList<>();
+        
+        //creating another list to store individual triplets in
+        List<Integer> triplets = new ArrayList<>();
+        
+        //view comments in beginning as to why array is being sorted
+        Arrays.sort(nums);
+        
+        for(int i=0; i<nums.length; i++){
+            
+            //start is right beside the element at i
+            int start = i+1;
+            //end is the last element of the array
+            int end = nums.length-1;
+            
+            
+            //since we do not want duplicate triplets, we will disregard any element that is the same as the element before it and move on to the next element. i>0 is a condition so we dont run into array out of bounds exception
+            if(i>0 && nums[i] == nums[i-1]){
+                
+                //The continue keyword is used to end the current iteration in a for loop (or a while loop), and continues to the next iteration.
+                continue;
+            }
+            
+            
+            while(start<end){
+                
+                // //since we do not want duplicate triplets, we will disregard any element that is the same as the element after it and move on to the previous element. end < nums.length-1 is a condition so we dont run into array out of bounds exception
+                if(end < nums.length-1 && nums[end] == nums[end+1]){
+                    end = end - 1;
+                    continue;
+                }
+                
+                if(nums[i] + nums[start] + nums[end] == 0){
+                    
+                    //.asList takes the array which is required to be converted into a List.
+                    triplets = Arrays.asList(nums[i], nums[start], nums[end]);
+                    
+                    //now we take these triplets and add it to our results list which will be returned
+                    result.add(triplets);
+                    
+                    //once we have found 3 numbers that equal to 0, we want to move our pointers so the start moves to the right and the end moves to the left
+                    start = start + 1;
+                    end = end -1;
+                    
+                }
+                
+                //since the array is sorted, we know if the value of the 3 elements is less than 0 that the total value needs to increase to get to 0, therefore we shift the start element to the right since the numbers are getting bigger in that direction
+                else if(nums[i] + nums[start] + nums[end] < 0){
+                    start = start + 1;
+                }
+                
+                //since the array is sorted, we know if the value of the 3 elements is greater than 0 that the total value needs to decrease to get to 0, therefore we shift the end element to the left since the numbers are getting smaller in that direction
+                else if(nums[i] + nums[start] + nums[end] > 0){
+                    end = end -1;
+                }
+                
+                
+            } //end of while loop
+            
+            
+        } //end of for loop
+        
+        return result;
+        
+        
+    }
+}
+/*
+Time complexity: O(n^2)
+Space complexity: O(1)
+*/
