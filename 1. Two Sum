@@ -1,0 +1,59 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        
+        //USE HASHMAP INSTEAD
+            
+        /* step 1 - create hashmap and then populate it with values from the nums array
+           step 2 - create a separate loop to iterate through hashmap
+           step 3 - get value in hashmap and subtract it from target. Check to see if that value is in hashmap
+           step 4 - if that value is in the hashmap then return the key for the original value and the key of the value searched up
+        */
+        
+        //declaring and initializing hashmap
+        HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+        
+        //result array of size 2 to return answer
+        int[] result = new int [2];
+        
+        //populating map
+        for (int i=0; i<nums.length; i++){
+            
+            /*
+            since we need to return the index of the element in the hashmap, the only way we can do this is by
+            using .get(key) which returns the value in the map. Therefore, we set up the map using nums[i] as the key which is the value in the array
+            and we use i as the value in the map but it is the index in the array.
+            */
+            map.put(nums[i],i);
+            /*
+            (2,0)
+            (7,1)
+            (11,2)
+            (15,3)
+            */
+            
+            
+        }
+        
+        //iterate through hashmap
+        for (int j=0; j<map.size(); j++){
+            
+            //can also just create an int variable for target-nums[j]
+            //second part of if statement is to eliminate the same element being used twice
+            
+            if(map.containsKey(target-nums[j]) && map.get(target-nums[j]) != j){
+                result[0] = j;
+                result[1] = map.get(target-nums[j]);
+                return result;
+                                   
+            }
+        }
+        
+        throw new IllegalArgumentException("No two sum solution");
+        
+    }
+}
+
+/*
+Time complexity: O(n) since we are iterating through the hashmap
+Space complexity: O(n) because the extra space required depends on the number of items stored in the hash table which stores exactly n elements
+*/
