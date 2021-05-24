@@ -1,0 +1,42 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        
+        
+        /*step 1 - implement a HashMap and add prices to it
+          step 2 - create a max profit variable and if the stock price when selling is greater than the max profit variable, update it
+          step 3 - 
+        */
+        
+        
+         int maxProfit = 0;
+        
+        //We want to find the lowest possible value in the array when buying so we can capitalize on the largest profit when selling
+        //Integer.MAX_VALUE = 2147483647
+         int minPrice = Integer.MAX_VALUE;
+        
+        
+        for(int i=0; i<prices.length; i++){
+            
+            //getting the lowest possible value in the array
+            //THIS IS THE KEY PART, WE WANT THE LOWEST VALUE SO WE CAN MAXIMIZE WHEN SELLING
+            if(prices[i] < minPrice){
+                minPrice = prices[i];
+            }
+            
+            //if the day we are selling on is greater than the max profit then set that value to the maxProfit
+            
+            else if (prices[i] - minPrice > maxProfit){
+                maxProfit = prices[i] - minPrice;
+            }
+            
+        }
+        
+        return maxProfit;
+        
+    }
+}
+
+/*
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/

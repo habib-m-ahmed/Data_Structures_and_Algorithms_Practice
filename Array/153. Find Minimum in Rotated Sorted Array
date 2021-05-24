@@ -1,0 +1,51 @@
+class Solution {
+    public int findMin(int[] nums) {
+        
+        /*by implementing binary search, we can achieve O(logn) runtime.
+        Furthermore, since the array is sorted, that is another hint to use binary search
+        summary of binary search is you get the midpoint and then all the elements to the left of that should be smaller and everything to the right is larger. Therefore, your target element is easier to find since you can completely disregard one half of the array.
+        */
+        
+        if(nums.length==0){
+            return 0;
+        }
+        
+        if(nums.length==1){
+            return nums[0];
+        }
+        
+        
+        int left = 0;
+        int right = nums.length-1;
+        
+        //since the array is sorted, the element to the left should be smaller than the element on the right (aka the one right beside it).
+        
+        while(left<right){
+            int mid = (left+right) / 2;
+            
+            //if the middle element is greater than the last element then we know everything to the left of it must be sorted and therefore we do not need to take that left side into account since we know the minimum element will not be there. This is binary search. 
+            ////Think of we are eliminating the left side so we are only left with whatever is to the right of the midpoint
+            if(nums[mid] > nums[right]){
+                left = mid+1;
+            }
+            
+            //else we know the minimum element is on the left side of the midpoint or the minimum element is the midpoint itself
+            //Think of we are eliminating the right side so we are only left with whatever is to the left of the midpoint
+            
+            else{
+                right = mid;
+            }            
+            
+        }
+    
+        
+        return nums[left];
+
+        
+    }
+}
+
+/*
+Time complexity: O(logn) due to binary search
+Space complexity: O(1)
+*/
