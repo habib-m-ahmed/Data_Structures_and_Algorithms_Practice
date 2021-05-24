@@ -1,0 +1,62 @@
+class Solution {
+    public int maxArea(int[] height) {
+        
+        //question is a little confusing to understand, view the following video: https://www.youtube.com/watch?v=TI3e-17YAlc&t=246s
+        
+        //Can implement 2 pointers, one at the start of the array and one at the end.
+        //Remember that when implementing 2 pointers, the condition while(i<j) is common
+        
+        
+        //Essentially what we want is the minimum between the two y-coordinates and then we multiply that by the difference of two x-axis values. This is what gives us the amount of water in the container. To get the most water however, we use the .max function when multiplying min by the difference between the x-axis values.
+        
+        //Lastly, if the value at i is smaller than the value at j, we want to increment the i pointer.
+        //else we want to decrement the j pointer
+        
+        //esnures we will get the lowest value when comparing it with other values
+        int min = Integer.MAX_VALUE;
+        
+        int max = 0;
+        
+        //pointer i at beginning of array and j at the end of the array
+        int i = 0;
+        int j = height.length-1;
+            
+            while(i<j){
+                
+                //getting min value
+                min = Math.min(height[i], height[j]);
+                
+                //look at diagram to understand this line. Basically, you multiple the min since it is the bottleneck by the difference in x values to see how much water the container can hold
+                //if the value is larger than the max, it becomes the new max.
+                max = Math.max(max, min * (j-i));
+                
+                //now we take care of moving the pointers
+                //in this case, the j pointer stays where it is at and the i pointer increments since it is the smaller value and we want the most water
+                if(height[i] < height[j]){
+                    i = i+1;
+                }
+                
+                //2nd case is if the height[i] > height[j] and then the j pointer decrements since height[j] is smaller and the i pointer stays where it is at
+                else{
+                    j = j-1;
+                }         
+            }            
+        
+            return max;
+
+        /*
+        i = 0, j = 8, min = 1, max = 8
+        i = 1, j = 8, min = 7, max = 49
+        i = 1, j = 7, min = 3, max = 18
+        .
+        .
+        .
+        */
+        
+    }
+}
+
+/*
+Time complexity: O(n) because of while loop and only doing one pass
+Space complexity: O(1)
+*/
