@@ -1,0 +1,55 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        
+        /*
+        A couple of things to note here: to solve this question think of the sliding window problem where we implement 2 pointers.
+            However, this time the 2 pointers start at the same spot in the beginning of the array NOT one pointer at the beginning and one pointer at the end
+        
+        The sliding window problem can be thought of as one pointer (A) stays at the beginning while the other one (B) increments. The only time the pointer A moves is when the condition to increment pointer B is not met
+        
+        Furthermore, since we do not want repeating characters, a good data structure to use in this case is a hash set where only unique values are stored
+        */
+        
+        
+        //both pointers start at beginning of array
+        int pointer_A = 0;
+        int pointer_B = 0;
+        
+        //max variable to keep track of the length of longest substring
+        int max = 0;
+        
+        //creation of hash set
+        HashSet<Character> set = new HashSet<Character>();
+        
+        //we want to iterate through the array until pointer B has reached the end
+        while(pointer_B < s.length()){
+            
+            //the first condition is that if the character is not in the set, then add it
+            if(!set.contains(s.charAt(pointer_B))){
+                set.add(s.charAt(pointer_B));
+                
+                //then we increment our B pointer while pointer A remains at the same spot
+                pointer_B = pointer_B + 1;
+                
+                max = Math.max(max, set.size());
+                
+            }
+            
+            //the else condition is if the element is already in the set
+            else{
+                //this is where the sliding window part comes in. If the character is already in the set, we want to remove the character at pointer A from the set and increment pointer A to the next character in the string (think of it as resetting our substring)
+                set.remove(s.charAt(pointer_A));
+                pointer_A = pointer_A + 1;
+            }
+                    
+        }
+        
+        return max;
+        
+    }
+}
+
+/*
+Time complexity: O(n) due to while loop
+Space complexity: O(m) since HashSet depends on size of input string
+*/
