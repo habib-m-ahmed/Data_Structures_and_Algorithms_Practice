@@ -1,0 +1,64 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        
+        /*
+        
+        algorithm: since duplicates can occur my first thought is to implpement a hashmap (key, value) : (character, #) -> CANNOT DO THIS BECAUSE MAPS CAN ONLY CONTAIN DUPLICATE VALUES, NOT DUPLICATE KEYS. THEREFORE, THE CHARACTER MUST BE THE value NOT THE key
+        
+        add each letter from string t into a hashmap and then iterate through each letter of string s and check if that letter in string s is in string t. If all letters are in string t then return true, else return false
+        
+        how to deal with removing the letter from string t once it has been checked: once the check is done, use map.remove(key) since it will only remove the first instance of that key
+        
+        ^This approach will NOT work no matter what the key or value is
+        
+        Instead, we use the ASCII table and can create an array that holds the number of times each character from the alphabet is in the strings.
+        If the letter is in string s then we add it to the counts array (++)
+        If the letter is in string t then we remove it from the counts array (--)
+        
+        At the end, every element (aka each letter) should have a value of 0 if the two strings are anagrams. Else we return false.
+        
+        
+        */
+        
+        //If the strings are not the same length, they can obviously not be anagrams
+        if(s.length() != t.length()){
+            return false;
+        }
+        
+        
+        int[] counts = new int[26];
+        //counts[0] will hold the number of a's, counts[25] will hold the number of z's, ....
+        
+        //we iterate through the string s
+        for(int i = 0; i<s.length();i++){
+            
+            //'a' has a value of 97 so if s.charAt(i) = 'a' as well, 97-97=0 and thus counts[0] holds the numbers of a's+
+            //if the letter is in string s we add it to the counts array
+            counts[s.charAt(i) - 'a'] = counts[s.charAt(i) - 'a'] + 1;
+            
+            //if the letter is in string t, we subtract it from the counts array
+            counts[t.charAt(i) - 'a'] = counts[t.charAt(i) - 'a'] - 1;
+
+        }
+        
+        //iterating through counts letter array
+        for(int j = 0; j<counts.length; j++){
+            
+            //if any letter occurs more than 0 times after the strings are iterated, then it cannot be an anagram since letters in two strings that are anagrams only appear once
+            if(counts[j] != 0){
+                return false;
+            }
+        }
+        
+        return true;
+        
+    }
+}
+
+
+/*
+
+Time complexity: O(n)
+Space complexity: O(1) Although we do use extra space, the space complexity is O(1) because the table's size stays constant no matter how large n is.
+
+*/
