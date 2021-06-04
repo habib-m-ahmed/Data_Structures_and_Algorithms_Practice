@@ -1,0 +1,84 @@
+class Solution {
+    public boolean isValid(String s) {
+        
+        //think of using a stack for this question
+        
+        //edge cases
+        //if s.charAt(0) equals a closing bracket of any kind, return false
+        //and if s.charAt(s.length()-1) equals an opening bracket of any kind then return false)
+        
+        //algorithm:
+        //if s.charAt(i) equals an open bracket then the next character must be a closing bracket of that same kind. else return false. This is because you cant have ( ]
+        
+        //lets say after the opening bracket there is another open bracket of a different kind (example 4) then the immediate next character must be a closing character of the same kind (or whatever bracket oppening type is on top of the stack, the first closing value must be the closing character of the same kind of the character on top of the stack!!)
+        
+        //after entire array is iterated through, return true
+        
+        // return false 
+        
+        
+        //The approach mentioned above is partially correct. After watching Kevin, using a for each loop, if the current char is an opening bracket of any kind, then push it on to the stack. 
+        
+        //else if the current char is a closing bracket of any kind and the element at the top of the stack must be an opening bracket of the same kind. The element at the top of the stack can be checked using stack.peek() and if the statement is true then pop the element at the top of the stack. 
+        
+        //The trick to this q is the stack is constantly being updated so if a closing bracket matches with an opening bracket then the opening bracket is popped off the stack and the next value of the string is checked
+        
+        //else return false if any of the conditions in the if statements are not met
+        
+        //after the entire string is iterated through, return stack.isEmpty which will either return true or false depending on if there's any elements left in the stack
+        
+        
+        //if first char is closing bracket then invalid        
+        if(s.charAt(0) == ')' || s.charAt(0) == ']' || s.charAt(0) == '}'){
+            return false;
+        }
+        
+        //if last char is opening bracket then invalid
+        if(s.charAt(s.length()-1) == '(' || s.charAt(s.length()-1) == '[' || s.charAt(s.length()-1) == '{'){
+            return false;
+        }
+        
+        
+        Stack<Character> stack = new Stack<Character>();
+        
+        
+        for(int i = 0; i<s.length(); i++){ 
+            
+            if(s.charAt(i) == '(' || s.charAt(i) ==  '{' || s.charAt(i) == '['){
+                stack.push(s.charAt(i));
+            }
+            
+            else if(s.charAt(i) == ')' && !stack.isEmpty() && stack.peek() == '('){
+                stack.pop();
+            }
+            
+            else if(s.charAt(i) == '}' && !stack.isEmpty() && stack.peek() == '{'){
+                stack.pop();
+            }
+            
+            else if(s.charAt(i) == ']' && !stack.isEmpty() && stack.peek() == '['){
+                stack.pop();
+            }
+            
+            else{
+                
+                return false;
+                
+            }
+            
+        }
+            
+        //the reason we return stack.isEmpty() instead of just true is because if there are any remaining brackets left in the stack, then the output should be false
+        //it should only return true if the stack is empty since that means all brackets are taken into account for
+        //for example, the above if statements will allow " ( ( " and both open brackets will be pushed on to the stack and by pass the return false statement. However, during this check, it will return false since the stack is not empty
+        return stack.isEmpty();
+        
+    }
+}
+
+/*
+Time complexity: O(n) because iterating through string. Stack operations all have O(1) time complexity
+Space complexity: O(n) because worst case scenario the entire string can be open brackets and every single one will get pushed on to the stack
+
+Where n is the length of the string s
+*/
