@@ -1,0 +1,100 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        
+        
+        /*
+        
+        r a c e c a r
+        
+        Algorithm: https://www.youtube.com/watch?v=ZJUGtWObroc&t=616s
+        
+        Using two pointer method: one pointer at start of string and another pointer also at the start of the string
+        
+        2 cases: even and odd length strings
+       
+        */
+        
+        if(s.length() <= 1){
+            return s;
+        }
+        
+        //since length will be more than 1, we start the max at 1
+        int max_len = 1;
+        
+        int st = 0;
+        int end = 0;
+        
+        //for odd length strings
+        
+        for(int i = 0; i<s.length()-1; i++){
+            
+            int l = i;
+            int r = i;
+            
+            while(l >= 0 && r < s.length()){
+                if(s.charAt(l) == s.charAt(r)){
+                    l = l - 1;
+                    r = r + 1;
+                }
+                
+                else{ //if L has gone below 0 or r has gone past the end of the string, then end while loop
+                    break;
+                }
+                
+                int len = r - l - 1;
+                
+                if(len > max_len){
+                    max_len = len;
+                    
+                    st = l + 1; //because either l has become -1 or l and r are not equal
+                    end = r - 1;
+                }
+                
+            }
+            
+        }
+        
+        
+        //for even length strings
+        //the only change in the code between here and above is that r starts at i+1 since there is no exact center of the string 
+        //all the other logic remains the same
+        
+        for(int i = 0; i<s.length()-1; i++){
+            
+            int l = i;
+            int r = i + 1;
+            
+            while(l >= 0 && r < s.length()){
+                if(s.charAt(l) == s.charAt(r)){
+                    l = l - 1;
+                    r = r + 1;
+                }
+                
+                else{ //if L has gone below 0 or r has gone past the end of the string, then end while loop
+                    break;
+                }
+                
+                int len = r - l - 1;
+                
+                if(len > max_len){
+                    max_len = len;
+                    
+                    st = l + 1; //because either l has become -1 or l and r are not equal
+                    end = r - 1;
+                }
+                
+            }
+            
+        }
+        
+        return s.substring(st, end + 1);
+        
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n^2) due to while loop nested within for loop
+Space complexity: O(1)
+*/
