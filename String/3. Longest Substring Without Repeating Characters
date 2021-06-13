@@ -38,7 +38,7 @@ class Solution {
             //the else condition is if the element is already in the set
             else{
                 //this is where the sliding window part comes in. If the character is already in the set, we want to remove the character at pointer A from the set and increment pointer A to the next character in the string (think of it as resetting our substring)
-                set.remove(s.charAt(pointer_A));
+                set.remove(s.charAt(pointer_A)); //by removing the character at pointer_A, we go and check in the if statement if the set still contains the character at pointer_B. If it does, then we go ahead and remove the character at from the set that is at pointer_A and we keep removing the characters at pointer_A 1 by 1 until the duplicate letter is removed.
                 pointer_A = pointer_A + 1;
             }
                     
