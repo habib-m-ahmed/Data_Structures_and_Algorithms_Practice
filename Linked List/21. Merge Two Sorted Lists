@@ -1,0 +1,93 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        
+        /*
+        Algorithm:
+        
+        Note the sizes of the two lists can be different from one another (up to 50) and they are sorted.
+        
+        A brute force approach would be to compare each node in the list with a value in the other list. Once a value has been compared and if it is the lower value, then it is added to the result list.
+        
+        The above step would be done while the value in l1 and l2 is not null
+        
+        If the two values being compared are the same then just add both of them to the results list. 
+        
+        At the end, since it is possible one list may have values left what you can do is iterste through it and add the values for it in
+        
+        video: https://www.youtube.com/watch?v=K63Mjf-H0B0
+        
+        
+        */
+        
+        
+        
+        //creating results list
+        
+        ListNode result = new ListNode();
+        ListNode head = result;
+        
+        while(l1 != null && l2 != null){
+            
+            //if value in list 1 is smaller
+            if(l1.val < l2.val){
+                
+                result.next = l1;
+                l1 = l1.next;
+                
+            }
+            //if value in list 2 is smaller or both values are =
+            else {
+                
+                result.next = l2;
+                l2 = l2.next;
+                
+            }
+            
+            //once we have put a value into the results list, we need to move the result list pointer so we dont overwrite the value
+            result = result.next;
+            
+            
+        } //end of while loop
+            
+            //now we check if any nodes are still in the lists
+            
+            if(l1 != null){
+                
+                
+                //l1 refers to multiple items if they are left over in the list
+                result.next = l1;                
+            }
+            
+            if(l2 != null){
+                
+                result.next = l2;
+                
+            }
+                
+        
+            
+            
+
+
+        //since the first node in result is = to -1 and that is what head points to, we return head.next        
+        return head.next;
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n)
+Space complexity: O(1)
+*/
