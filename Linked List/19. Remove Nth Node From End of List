@@ -1,0 +1,89 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        
+        
+        /*
+        Algorithm: https://www.youtube.com/watch?v=XVuQxVej6y8&t=230s
+        
+        We can solve this question by implementing two pointers. The left pointer will start at the first node and the right pointer will start at the node that is "n" spaces away. Next, we will iterate both pointers by 1 each time until the right pointer equals null. What this results in is the left pointer always being on the node we wanted removed. 
+        
+        For ex: 
+        
+        1 -> 2 -> 3 -> 4 -> 5 -> NULL | n = 2 so we want 2nd last node removed
+        L         R  
+             L         R 
+                  L         R
+                       L           R
+                       
+    As you can see, the L pointer is at the node we want removed.
+    
+    In order to remove the 4, we need to get the pointer from 3 and make it point to 5. That will remove the 4.
+    
+    The problem we have here is that the L pointer is at 4, not 3 so we cannot remove it just yet.
+    
+    What we do is we create a dummy node that points to the first node and our left pointer is set to the dummy node instead of the first node
+    The right pointer is still initialized where it was before
+    
+    We have something like this: 
+    DUMMY -> 1 -> 2 -> 3 -> 4 -> 5 -> NULL
+      L                R
+
+    What will happen is when the right pointer is at NULL this time, the left pointer will be exactly where we want it so we can simply assign it to the .next.next of the left pointer which eliminates the node
+    
+    Finallly, by returning dummy.next, we get an output of the resulting list with the specified node removed
+        
+    */
+        
+        
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        
+        ListNode left = new ListNode();
+        ListNode right = new ListNode();
+        
+        left = dummy; //left pointer starts at dummy
+        right = head; //remember that the right pointer will start off from its normal position so the head
+        
+        //this first while loop is to get the right pointer started at the correct location in the list
+        //remmeber we want it to be n nodes away from the left pointer so that is how many times we increment the right pointer
+        while(right != null && n > 0 ){
+            right = right.next; //increment the right pointer
+            n = n - 1; //decrement the n value since we have moved a spot
+            
+        }
+        
+        
+        //Next, we will iterate both pointers by 1 each time until the right pointer equals null. What this results in is the left pointer always being on the node we wanted removed. 
+        
+        while(right != null){
+            
+            right = right.next;
+            left = left.next;
+            
+        }
+    
+        //at this point, our left pointer is at the node right before the node we want removed which is exactly what we want
+        //what we can do now is take the left nodes next pointer and make it equal to .next.next which removes the node in between
+        
+        left.next = left.next.next;
+        
+        return dummy.next;
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n)
+Space complexity: O(1)
+*/
