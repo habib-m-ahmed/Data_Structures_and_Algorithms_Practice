@@ -1,0 +1,150 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        
+        
+        /*
+        Algorithm:
+        
+        Can implement 2 pointers: left and right. The left pointer starts at the beginning of the list whereas the right pointer starts at the end of the list
+        
+        Create a new list and add the nodes to that list in the following manner:
+        
+        Add the node at the left pointer to the new list. Add the node at the right pointer to the new list
+        Next, increment the left pointer in the original list and decrement the right pointer in the original list
+        
+        Repeat the 2 steps above until the left and right pointer are at the same node
+        At that point, all nodes will have been added to the new list and we can return that list
+        
+        The problem with this approach is how do you decrement the right pointer since there is no .prev function
+        
+        So, another solution would be to reverse the second half of the list and add those nodes to a new list called reverseList
+        How do you get to the middle node so you can reverse the second half of the list?
+        Well, remember the fast and slow pointer method: slow moves one at a time, fast moves two at a time
+        By the time fast gets to the end of the list, the slow pointer will be exactly at the middle of the list and you can then reverse the second half of the list
+        
+        For ex: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> NULL | S = SLOW, F = FAST
+                SF        
+                     S    F
+                          S         F
+                               S              F
+                                    S                    F
+        
+        As you can see, the slow pointer is at the middle of the list
+        
+        List one is simply just: 1 -> 2 -> 3 -> 4 -> 5
+        List two is 6 -> 7 -> 8 -> NULL
+            But after reversing it, we get 8 -> 7 -> 6 -> NULL
+            
+        Now you just simply set the pointer of the first node from list one to first node in the reversed list and then you set the pointer of the first node in the reversed list to the second node in the original list and so on... 
+        
+        The above step repeats until we reach NULL in our second list
+                                    
+        The solution to this problem can be split into 3 main parts:
+        1. find the middle of the list
+        2. reverse the list after the middle node
+        3. merge the two lists
+        
+        
+        VIEW THIS VIDEO TO GET A BETTER UNDERSTANDING OF THE ALGORITHM : https://www.youtube.com/watch?v=rEYm4yLHSHQ
+        
+        */
+        
+        
+        //if list is emmpty then just simply return it
+        if(head == null){
+            return;
+        }
+        
+        //step one: find middle of list - implement slow and fast pointer method
+        
+        ListNode slow = new ListNode();
+        ListNode fast = new ListNode();
+        
+        slow = head;
+        fast = head;
+        
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        
+        //now that the slow pointer is at the middle node in the list, we want to reverse the SECOND HALF of the list
+            
+        //remember, in the reverse linked list problem, previous is initally set to NULL before entering the while loop
+        ListNode prev = new ListNode();
+        prev = null;  
+            
+      
+        ListNode current = new ListNode();
+        //THIS LINE : originally had this as current = slow.next but for some reason it is just slow??
+        //someone also brings up the point above in the comments of the video..^
+        current = slow;
+
+        //using next_node similar to reverse linked list problem
+        ListNode next_node = new ListNode();
+        
+        while(current != null){
+            
+            next_node = current.next;
+            current.next = prev;
+            prev = current;
+            current = next_node;
+            
+        }
+        //remember we return prev NOT current when reversing a linked list
+        ListNode list_reversed = new ListNode();
+        list_reversed = prev; //list2 contains the second half of the original list in reversed order
+        
+        
+        //The last step is to merge the two linked lists (original first half and the reversed second half)
+        ListNode list_original = new ListNode();
+        list_original = head;
+        
+        //we iterate until we reach the null node in our reversed list because the original list contains all the nodes and we do not want to go through all of them
+        
+     
+        
+        //if error arises then replace this with next_node
+        ListNode temp = new ListNode();
+        
+         //  1 -> 2
+         //  5 -> 4 -> 3 -> NULL
+        
+        
+        while(list_reversed.next != null){
+            
+            //To understand the code below, follow through step by step using the two lists above or else it is very confusing
+            
+            temp = list_original.next;
+            list_original.next = list_reversed;
+            
+            //iterate list_original to its next node
+            list_original = temp;
+            
+            //what we do here is use the same temp variable but implement it in both lists independently, could also just create a second temp variable
+            temp = list_reversed.next;
+            
+            list_reversed.next = list_original;
+            list_reversed = temp;
+            
+        }
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n)
+Space complexity: O(1)
+*/
