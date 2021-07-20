@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        
+        /*
+        
+        A good way to think about this question or recursion of a binary tree in general is to think of the movie theatre analogy. Imagine you are sitting in a theatre and you want
+        to know what row you are in. You can simply just ask the person in front of you what row they are in and they can then do the exact same thing by asking
+        the person in front of them. This process will repeat until the person in the first row is reached since they are the only ones who actually know what row they
+        are in. Then, each person reports back until the person in front of you tells you what row they are in. For example, lets say the person in front of you says
+        they are in the 14th row. That means you are in the 14th + 1 row so you are in the 15th row. 
+        
+        */
+        
+        
+        //base case. Think of this as the person sitting in the first row. The root will eventually come down to 0 as it iterates through the entire tree since the children are null which returns 0 but remember the +1 part. Because of this, 1 actually gets returned (from the Math.max part)
+        if(root == null){
+            return 0;
+        }
+        
+        
+        //this is the recursive part to iterate through the entire tree
+        //we use int since MaxDepth returns an int and left/right will equal a number since Math.max will return a number
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        
+      
+        
+        //think of the movie theatre analogy as to why we return +1
+        //when we finally get to a null case, we return 0 as per the base case. However, we add 1 to it since the depth of the last node is 1 and we work our way up
+        return Math.max(left,right) + 1;
+        
+        
+        /*
+        Time complexity: O(n)
+        Space complexity: O(1)
+        */
+            
+            
+            
+            
+        
+        
+        
+        
+    }
+}
