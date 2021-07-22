@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        
+        
+        /*
+        
+        Algorithm: We can solve this question by using recursion and implementing a post-order traversal
+        
+        A post order traversal first processes the left-most node, then the right node and then the root
+        
+        Our base case is if the root is null then return the root (the root is null so null is returned)
+        
+        We call invertTree on our left subtree first and then the right subtree
+        
+        To "invert" the tree, just think of swapping two numbers in two variables: create a third variable which is a temporary variable, set temp to the value of one of the numbers
+        and then just make a simple switch (technically we dont need the temp variable)
+        
+        
+        
+        
+        */
+        
+        //base case
+        if(root == null){
+            return root;
+        }
+        
+        //recursive calls - postorder traversal
+        TreeNode left = invertTree(root.left);
+        TreeNode right = invertTree(root.right);
+        
+        //the following three lines perform the swap
+        TreeNode temp = left; //temp variable to store value so left doesn't get lost
+        
+        /*
+        technically dont need the temp variable
+        Can just do:
+            root.left = right;
+            root.right = left;
+        */
+        
+        root.left = right;
+        root.right = temp;
+        
+        return root;
+        
+    }
+}
+
+/*
+Time complexity: O(n) since each node in the tree is visited at least once
+Space complexity: O(h) where h is the height of the tree since in the worst case O(h) function calls will be placed on the stack due to recursion
+*/
