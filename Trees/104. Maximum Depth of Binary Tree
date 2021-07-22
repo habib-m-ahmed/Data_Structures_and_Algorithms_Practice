@@ -47,7 +47,7 @@ class Solution {
         
         /*
         Time complexity: O(n)
-        Space complexity: O(1)
+        Space complexity: O(1) - WRONG. Space complexity will be O(h) where h is the height of the tree since in the worst case there can be O(h) calls on the stack due to recursion
         */
             
             
