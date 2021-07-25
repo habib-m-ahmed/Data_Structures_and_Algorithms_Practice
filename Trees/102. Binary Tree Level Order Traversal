@@ -1,0 +1,96 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        
+        
+        /*
+        
+        We know level order traversal is just Breadth-First Search (QUEUE) - remember "barbeque" b for BFS, q for QUEUE
+    
+        ALGORITHM:
+        Create a total results list
+        
+        We first check if the root is null, if it is then we return our empty list since we have no tree
+        
+        Next we create a queue and we know we have a root at this point so we add our root to the queue.
+        The next step is to check whether we have something in the queue (!isEmpty). If we do then we have some processing to do
+        
+        However, how do we know how many elements we need to process?
+        We create a for loop and check that as long as i < queue.size() then we remove the element from the front of the queue (lets call it current) and add its value (current.val) to the currentLevel list.
+        
+        Within the for loop, we add the left and right children (if they arent null) of the current node to the queue. THIS IS THE IMPORTANT PART AND IS WHAT KEEPS GIVING THE QUEUE NODES TO PROCESS
+        
+        Once the for loop has finished executing it means we have iterated through all of the nodes on that level so we add the currentLevel list to our result list
+        But since the queue is not empty (the nodes for the next level are already in it), there is more processing to do. Thus, the above steps repeat until the queue is finally empty
+        
+        */
+        
+        //our result list is a list of list integers
+        List<List<Integer>> result = new ArrayList<>();
+        
+        //if the tree doesnt exist then return the empty list
+        if(root == null){
+            return result;
+        }
+        
+        //Since this is BFS, we use a queue (NOTE THE LINKEDLIST part)
+        Queue<TreeNode> queue = new LinkedList<>();
+        
+        //Since we checked in the if statement above if our root is null, we know if we have gotten to this point then we must have a root. Thus, we add it to the queue
+        queue.add(root);
+        
+        while(!queue.isEmpty()){
+            
+            List<Integer> currentLevel = new ArrayList<>();
+            
+            int size = queue.size(); //This is important as we need to keep track of the size of the queue so we know how many nodes are in the queue since we only want to return the nodes that are on each specific level within the currentLevel list
+            
+            //we create a for loop so we can iterate through the queue for each specific level
+            //remember we are not just returning all the values in a list. We are returning all the values level by level in a list so we need a for loop to keep track of the size of the queue for each level
+            for(int i=0; i<size; i++){
+            
+            
+            //removing the element at the front of the queue to add into the currentLevel list
+            TreeNode current = queue.remove();
+            currentLevel.add(current.val);
+            
+            //check if current has left and right children. If it does then add them to the queue so they can be processed as well
+            if(current.left != null){
+                queue.add(current.left);
+            }
+            
+            if(current.right!= null){
+                queue.add(current.right);
+            }
+                
+            }//end of for loop
+            
+            result.add(currentLevel);
+            
+        } //end of while loop
+        
+        return result;
+        
+    }
+}
+
+/*
+
+Time complexity: O(n)
+Space complexity: O(n)
+
+*/
