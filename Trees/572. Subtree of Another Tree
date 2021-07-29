@@ -1,0 +1,122 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        
+        /*
+        
+        ALGORITHM:
+        
+        Base case: 
+        
+        We know that if our subRoot is null then it is indeed a subtree of our root tree because a null node will always be a subtree of the root tree. Thus, we return true
+        However, if the root tree is null then we know it cannot possibly have a subtree so we return false
+        
+        
+        Assuming that the tree exists, we check if root == subroot
+      
+        if it does not then we want to check if the left or right children of root equal to subroot so we make a recursive call isSubtree(root.left,subRoot) and then another call isSubtree(root.right,subRoot)
+        
+        if root does equal subroot, then we want to check if the subtree is the exact same as subRoot. At this point the problem becomes similar to 'isSameTree' and we want to check if the two trees are the same by calling our helper function
+        
+        isSameTree function: isSameTree(tree1, tree2)
+        
+        if(tree1 == null && tree2 == null){
+            return true
+        }
+        
+        else if(tree1 == null || tree2 == null){
+            return false
+        }
+        
+        we also want to check if tree1.val == tree2.val
+        if it does then we return isSameTree again for (tree1.left, tree2.left) && (tree1.right, tree2.right)
+        else if(
+            return isSameTree(tree1.left,tree2.left) && (tree1.right,tree2.right)
+        
+        }
+        
+        else{
+        return false
+        }
+    
+        
+        */
+        
+        //we check if our subRoot tree is null, if it is then we return true since the null node will always be a subtree
+        if(subRoot == null){
+            return true;
+        }
+        
+        //however if the root tree is null then we know it can have no possible subtrees so we return false
+        if(root == null){
+            return false;
+        }
+        
+        //if the root and subRoot are the same then we call our helper function and see if the two trees are the same
+        else if(isSameTree(root,subRoot)){ //if isSameTree returns true then this else if gets executed and we return true
+            return true;
+        }
+        
+        //if the two trees are not the same then we want to check if either the left or right child of the root tree is equal to subRoot so we make our recursive call
+        else{
+            return isSubtree(root.left,subRoot) || isSubtree(root.right,subRoot);
+            
+        }
+        
+    }
+        
+        //helper function to see if the two trees are the same
+        public boolean isSameTree(TreeNode tree1, TreeNode tree2){
+            
+            //first check if both are null, if so then return true
+            if(tree1 == null && tree2 == null){
+                return true;
+            }
+            
+            //Since we now know both trees are not null, if one is null and the other is not then we return false since we do not have the same trees
+            else if(tree1 == null || tree2 == null){
+                return false;
+            }
+            
+            //if the values are the same then we want to check if the left and right children also have the same values so this is where we make our recursive call
+            else if(tree1.val == tree2.val){
+                return isSameTree(tree1.left, tree2.left) && isSameTree(tree1.right, tree2.right);
+            }
+            
+            //Lastly, if the two trees are not null and if they dont have the same value then they are not the same tree since they are not the same value so we return false
+            else{
+                return false;
+            }
+        }
+        
+        /* Call stack
+        FOR(2,2) isSameTree(0,null) && isSameTree(null,null) --FALSE
+        FOR (1,1) isSameTree(null,null) && isSameTree(null,null) --TRUE
+        isSameTree(1,1) && isSameTree(2,2) --FALSE
+        isSameTree(4,4) --FALSE
+        */
+        
+    
+}
+
+/*
+
+Time complexity: O(m*n) where m is the number of nodes in root and n is the number of nodes in subRoot. "We have to look for the entire subRoot tree for each node in the root tree"
+
+Space complexity: O(h) where h is the height of the "root" tree
+
+*/
