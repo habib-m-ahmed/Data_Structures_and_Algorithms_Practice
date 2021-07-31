@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        
+        //if using int then doesn't pass leetcode edge case so we use long
+        long min = Long.MIN_VALUE;
+        long max = Long.MAX_VALUE;
+        
+        
+        //if we have no tree then return true
+        if(root == null){
+            return true;
+        }
+        
+        return validate(root, min, max);
+        
+    }
+    
+    
+    public boolean validate(TreeNode root, long min, long max){
+        
+        //if we have reached the null node then we have successfully traversed through the entire tree and it is indeed a BST
+        if(root==null){
+            return true;
+        }
+        
+        //if the value of a node is greater than or equal to the max or less than or equal to the min then it is not a BST
+        if(root.val >= max || root.val <= min){
+            return false;
+        }
+        
+        //When going through the left subtree, we know all the values must be smaller than the root. Therefore the root.val is the maximum value
+        //When going through the right subtree, we know all the values must be larger than the root. Therefore the root.val is the minimum value
+        return validate(root.left, min, root.val) && validate(root.right, root.val, max);
+        
+        
+    }
+}
+
+/*
+Time complexity: O(n) where n is the number of nodes in the tree
+Space complexity: O(n) since we can have 'n' number of recursive calls on our stack in the worst case
+*/
