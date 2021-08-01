@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    ArrayList<Integer> values = new ArrayList<>();
+
+
+    public int kthSmallest(TreeNode root, int k) {
+        
+        
+        /*
+        
+        Algorithm:
+        
+       By performing an inorder traversal of the tree we will get the values stored from lowest to highest in our list
+       Then we can simply find the kth smallest element since they will be in order by accessing the (k-1) index
+        
+        */
+        
+        inorder(root);
+        
+        return values.get(k-1);
+        
+        
+        
+    }
+    
+    public void inorder(TreeNode root){
+        
+        //iterate through bst and add values to array list
+        
+        if(root == null){
+            
+            return; //dont have to return an actual value since void function
+            
+        }
+        
+        //to perform an inorder traversal, we visit left -> root -> right
+        inorder(root.left);
+        values.add(root.val);
+        inorder(root.right);
+        
+    }
+    
+}
+
+/*
+Time complexity: O(n) where n is the number of nodes in the tree
+Space complexity: O(m) where m is the maximum number of recursive calls on the call stack in the worst case
+*/
