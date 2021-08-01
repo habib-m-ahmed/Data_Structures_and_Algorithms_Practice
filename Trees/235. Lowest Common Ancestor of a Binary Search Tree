@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
+        /*
+        
+        Remember that a BST has values smaller than the root to the left and values larger than the root to the right
+        Using that property, we can recursively traverse through the tree by checking whether p.val and q.val and greater than or less than the root
+        
+        */
+        
+        //if both p and q are within the left subtree 
+        if(p.val < root.val && q.val < root.val){
+            
+            return lowestCommonAncestor(root.left, p, q);
+            
+        }
+        
+        //if p and q are within the right subtree then we traverse through the right side
+        else if(p.val > root.val && q.val > root.val){
+            
+            return lowestCommonAncestor(root.right, p, q);
+            
+        }
+        
+        //if p is one one side and q is on the other side then we just simply return the root since it is the ancestor
+        else{
+            
+            return root;
+
+        }
+        
+    }
+}
+
+/*
+
+Time complexity: O(n) where n is number of nodes in the BST because in the worst case we might visit all the nodes of the BST. However, could also be O(log(n)) since we are reducing the number of nodes to check by half in each step
+
+Space complexity: O(n) where n is the number of nodes in the tree since in the worst case there can be n number of recursive calls on the call stack if the BST is skewed. For example: 1->2->3->4->5
+
+To solve in constance space complexity, have to do this iteratively by using while (root!= null)
+
+*/
