@@ -1,0 +1,96 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        
+        /*
+        
+        
+        Algorithm:
+        
+        
+        
+        */
+        
+        //error checking
+        if(grid == null || grid.length == 0){
+            
+            return 0;
+            
+        }
+        
+        
+        int numIslands = 0;
+        
+        //need to traverse entire matrix, therefore nested for loop
+        for(int i=0; i<grid.length; i++){
+            
+            for(int j=0; j<grid[i].length; j++){
+                
+                //if we see a 0, we are not interested. Therefore, 1 is the case we want to focus on
+                if(grid[i][j] == '1'){
+                    
+                    //if we have visited an island then we know we have to increment our counter numIslands by something
+                    numIslands = numIslands +  dfs(grid, i, j);
+                    
+                    
+                }
+                
+            }
+            
+        }
+        
+        return numIslands;
+        
+        
+    }
+    
+    
+    public int dfs (char[][] grid, int i, int j){
+        
+        
+        //we want to check if the indices we are given are valid to make sure we havent went out of bounds
+        /*
+        i < 0 : out of bounds from the top
+        i >= grid.length : out of bounds from the bottom
+        j < 0 : out of bounds from the left
+        j >= grid[i].length : out of bounds from the right
+        */
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[i].length){
+            return 0;
+        }
+        
+        //not interested if it is water
+        if(grid[i][j] == '0'){
+            return 0;
+        }
+        
+        //if the spot is a 1, we want to turn it to a 0 so we do not visit it again and we also want to visit all of its neigbors
+        //if(grid[i][j] == '1'){ missing return statement so using else statement instead of this if statement
+        
+        else{
+            
+            grid[i][j] = '0'; //turn the value to 0 since we do not want to visit it again
+                
+            //we want to visit the neigbors
+            dfs(grid, i+1, j); //down value
+            dfs(grid, i-1, j); //up value
+            dfs(grid, i, j+1); //right value
+            dfs(grid, i, j-1); //left value
+            
+            
+            return 1; //we return 1 to account for the original island we are visiting
+                
+        }
+        
+      //}
+        
+        
+        
+    }
+    
+    
+}
+
+/*
+Time Complexity is O(mn), m is the row's size, n is the column's size.
+Space Complexity is O(mn), you can assume your worse case is the dfs needs to go m*n deep. here space cost is recursive stack's size.
+*/
