@@ -1,0 +1,78 @@
+class Solution {
+    
+    //https://www.youtube.com/watch?v=krL3r7MY7Dc
+    
+    //directions for up, down, left and right
+    int dir[][] = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+    
+    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        
+        //return list variable
+        List<List<Integer>> res = new ArrayList<>();
+        
+        //checking edge cases or null conditions
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0) 
+            return res;
+        
+        //initializing row and column
+        int row = matrix.length, col = matrix[0].length;
+        
+        //boolean matrices to store whether or not a cell can give you a path that can reach pacific / atlantic
+        boolean[][] pacific = new boolean[row][col];
+        boolean[][] atlantic = new boolean[row][col];
+        
+        //DFS that will populate the two matrices above
+        //What we are trying to do is start from the nearest value to the ocean and then we are trying to see if we can have other coordinates reach that particular point or not
+        
+        //this is for the column
+        for(int i = 0; i < col; i++){
+            
+            dfs(matrix, 0, i, Integer.MIN_VALUE, pacific); //we use the pacific because the 0th row is near it
+            dfs(matrix, row-1, i, Integer.MIN_VALUE, atlantic);
+        }
+        
+        //this is for the rows
+        for(int i = 0; i < row; i++){
+            dfs(matrix, i, 0, Integer.MIN_VALUE, pacific);
+            dfs(matrix, i, col-1, Integer.MIN_VALUE, atlantic);
+        }
+        
+        //preparing the result
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++) {
+                if(pacific[i][j] && atlantic[i][j]) {
+                    //will add the coordinate if there is a path to both the atlantic and pacific ocean
+                    res.add(Arrays.asList(i,j));
+                }
+            }
+        }
+        
+        return res;
+    }
+    
+    public void dfs(int[][] matrix, int i, int j, int prev, boolean[][] ocean){
+        
+        //checking boundary conditions for i and j
+        if(i < 0 || i >= ocean.length || j < 0 || j >= ocean[0].length) return;
+        
+        //now we check whether we can go to that particular location or not
+        //the current value must be greater than the previous so we can get to the ocean
+        if(matrix[i][j] < prev || ocean[i][j]) return;
+        
+        ocean[i][j] = true;
+        
+        //now we call the dfs on the four directions using the array initalized in the beginning
+        for(int[] d : dir){
+            dfs(matrix, i+d[0], j+d[1], matrix[i][j], ocean);
+        }
+        
+    }
+}
+
+/*
+
+Time complexity: O(m*n) since we are doing DFS and we are visiting every cell at least once in the worst case
+Space complexity O(n*n) because of the two boolean matrices
+
+*/
