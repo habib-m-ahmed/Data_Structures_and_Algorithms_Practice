@@ -1,0 +1,38 @@
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        
+        //we use a hashset because it has O(1) lookup and insertion time complexity
+        HashSet<Integer> num_set = new HashSet<Integer>();
+        
+        //add elements from array into hashset
+        for (int i=0; i<nums.length; i++) {
+            num_set.add(nums[i]);
+        }
+
+        int longestStreak = 0;
+
+        for (int num : num_set) {
+            
+            //we only attempt to build sequences from numbers that are not already part of a longer sequence. This is accomplished by first ensuring that the number that would immediately precede the current number in a sequence is not present, as that number would necessarily be part of a longer sequence.
+            if (!num_set.contains(num-1)) {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (num_set.contains(currentNum+1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+}
+
+/*
+Time complexity: O(n). Although the time complexity appears to be quadratic due to the while loop nested within the for loop, closer inspection reveals it to be linear. Because the while loop is reached only when currentNum marks the beginning of a sequence (i.e. currentNum-1 is not present in nums), the while loop can only run for nn iterations throughout the entire runtime of the algorithm. This means that despite looking like O(n \cdot n)O(n⋅n) complexity, the nested loops actually run in O(n + n) = O(n)O(n+n)=O(n) time. All other computations occur in constant time, so the overall runtime is linear.
+
+Space complexity: O(n). In order to set up O(1) containment lookups, we allocate linear space for a hash table to store the O(n) numbers in nums. Other than that, the space complexity is identical to that of the brute force solution.
+*/
